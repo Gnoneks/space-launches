@@ -1,0 +1,97 @@
+{
+    "count": 49,
+    "next": "https://ll.thespacedevs.com/2.0.0/location/?limit=10&offset=10",
+    "previous": null,
+    "results": [
+        {
+            "id": 26,
+            "url": "https://ll.thespacedevs.com/2.0.0/location/26/",
+            "name": "Tanegashima Space Center, Japan",
+            "country_code": "JPN",
+            "map_image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_26_20200803142507.jpg",
+            "total_launch_count": 93,
+            "total_landing_count": 0
+        },
+        {
+            "id": 145,
+            "url": "https://ll.thespacedevs.com/2.0.0/location/145/",
+            "name": "Shahrud Missile Test Site, Islamic Republic of Iran",
+            "country_code": "IRN",
+            "map_image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_145_20200803142443.jpg",
+            "total_launch_count": 6,
+            "total_landing_count": 0
+        },
+        {
+            "id": 147,
+            "url": "https://ll.thespacedevs.com/2.0.0/location/147/",
+            "name": "Interarmy Special Vehicles Test Centre, French Algeria",
+            "country_code": "FRA",
+            "map_image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_147_20240808092142.jpg",
+            "total_launch_count": 4,
+            "total_landing_count": 0
+        },
+        {
+            "id": 3,
+            "url": "https://ll.thespacedevs.com/2.0.0/location/3/",
+            "name": "Sea Launch",
+            "country_code": "???",
+            "map_image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_3_20200803142448.jpg",
+            "total_launch_count": 53,
+            "total_landing_count": 0
+        },
+        {
+            "id": 153,
+            "url": "https://ll.thespacedevs.com/2.0.0/location/153/",
+            "name": "Tonghae Satellite Launching Ground",
+            "country_code": "PRK",
+            "map_image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_153_20200803142503.jpg",
+            "total_launch_count": 2,
+            "total_landing_count": 0
+        },
+        {
+            "id": 156,
+            "url": "https://ll.thespacedevs.com/2.0.0/location/156/",
+            "name": "Whalers Way Orbital Launch Complex, South Australia",
+            "country_code": "AUS",
+            "map_image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_whalers_way_orbital_launch_complex_20210910042508.jpg",
+            "total_launch_count": 1,
+            "total_landing_count": 0
+        },
+        {
+            "id": 12,
+            "url": "https://ll.thespacedevs.com/2.0.0/location/12/",
+            "name": "Cape Canaveral SFS, FL, USA",
+            "country_code": "USA",
+            "map_image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_12_20200803142519.jpg",
+            "total_launch_count": 984,
+            "total_landing_count": 58
+        },
+        {
+            "id": 17,
+            "url": "https://ll.thespacedevs.com/2.0.0/location/17/",
+            "name": "Jiuquan Satellite Launch Center, People's Republic of China",
+            "country_code": "CHN",
+            "map_image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_17_20200803142429.jpg",
+            "total_launch_count": 233,
+            "total_landing_count": 0
+        },
+        {
+            "id": 15,
+            "url": "https://ll.thespacedevs.com/2.0.0/location/15/",
+            "name": "Baikonur Cosmodrome, Republic of Kazakhstan",
+            "country_code": "KAZ",
+            "map_image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_15_20200803142517.jpg",
+            "total_launch_count": 1551,
+            "total_landing_count": 0
+        },
+        {
+            "id": 27,
+            "url": "https://ll.thespacedevs.com/2.0.0/location/27/",
+            "name": "Kennedy Space Center, FL, USA",
+            "country_code": "USA",
+            "map_image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/map_images/location_27_20200803142447.jpg",
+            "total_launch_count": 245,
+            "total_landing_count": 0
+        }
+    ]
+}
