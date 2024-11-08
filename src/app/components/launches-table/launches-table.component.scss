@@ -1,9 +1,48 @@
+$primary-blue: rgb(47, 123, 221);
+
 .table {
     background-color: #fff;
 
 
     &__status {
         background-color: rgb(113, 201, 241);
-        color: rgb(0, 74, 211);
+        color: $primary-blue;
+    }
+
+
+    &__pagination {
+        display: flex;
+        gap: 8px;
+    }
+
+    &__pagination-button {
+        background-color: #fff;
+        border: none;
+        border-radius: 6px;
+        color: $primary-blue;
+        cursor: pointer;
+
+        &--disabled {
+            color: rgb(201, 201, 201);
+        }
+    }
+
+    &__pagination-page {
+        padding: 8px;
+        background-color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: background-color 0.2s ease-out;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgb(187, 187, 187);
+        }
+
+        &--selected {
+            background-color: $primary-blue;
+            color: #fff;
+        }
     }
 }

@@ -39,10 +39,14 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-<div>
-  <button>BACK</button>
+<div class="table__pagination">
+  <button class="table__pagination-button" [class.table__pagination-button--disabled]="prevButtonDisabled">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
   @for (page of tablePages; track $index) {
-  <button> {{page}}</button>
+  <button class="table__pagination-page" [class.table__pagination-page--selected]="selectedPage === page" (click)="selectPage(page)">{{page}}</button>
   }
-  <button>NEXT</button>
+  <button class="table__pagination-button"  [class.table__pagination-button--disabled]="nextButtonDisabled">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
 </div>

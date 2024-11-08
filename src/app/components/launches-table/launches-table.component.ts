@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 import { LaunchesTableService } from './launches-table.service';
 import {
   NgLabelTemplateDirective,
@@ -20,6 +21,7 @@ import { Location } from './models/locations.model';
     NgLabelTemplateDirective,
     NgOptionTemplateDirective,
     NgSelectComponent,
+    MatIconModule,
   ],
   templateUrl: './launches-table.component.html',
   styleUrl: './launches-table.component.scss',
@@ -32,6 +34,10 @@ export class LaunchesTableComponent implements OnInit {
   launches: Launch[];
   locations: Location[];
   tablePages: number[] = [];
+
+  selectedPage = 1;
+  prevButtonDisabled = true;
+  nextButtonDisabled = false;
 
   selectedLocationName: string;
 
@@ -46,7 +52,7 @@ export class LaunchesTableComponent implements OnInit {
     this.launchesData = data.results;
     this.launches = this.launchesData;
     this.locations = locationsData.results;
-    console.log(data.count)
+    console.log(data.count);
     const launchesPagesCount = Math.ceil(data.count / 10);
     for (let idx = 1; idx <= launchesPagesCount; idx++) {
       this.tablePages.push(idx);
@@ -61,5 +67,13 @@ export class LaunchesTableComponent implements OnInit {
     this.launches = this.launchesData.filter((launch) =>
       locationsNames.includes(launch.pad.location.name)
     );
+  }
+
+  selectPage(page: number) {
+    const lastPage = this.tablePages[this.tablePages.length - 1];
+    console.log(lastPage);
+    this.selectedPage = page;
+    this.prevButtonDisabled = this.selectedPage === 1;
+    this.nextButtonDisabled = this.selectedPage === lastPage;
   }
 }
