@@ -40,13 +40,13 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 <div class="table__pagination">
-  <button class="table__pagination-button" [class.table__pagination-button--disabled]="prevButtonDisabled">
+  <button class="table__pagination-button" [class.table__pagination-button--disabled]="prevButtonDisabled" (click)="prevPage()">
     <mat-icon>chevron_left</mat-icon>
   </button>
   @for (page of tablePages; track $index) {
   <button class="table__pagination-page" [class.table__pagination-page--selected]="selectedPage === page" (click)="selectPage(page)">{{page}}</button>
   }
-  <button class="table__pagination-button"  [class.table__pagination-button--disabled]="nextButtonDisabled">
+  <button class="table__pagination-button"  [class.table__pagination-button--disabled]="nextButtonDisabled" (click)="nextPage()">
     <mat-icon>chevron_right</mat-icon>
   </button>
 </div>

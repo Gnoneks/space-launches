@@ -10,6 +10,7 @@ import {
 import { Launch } from './models/launch.model';
 //
 import data from '../data.json';
+import offset10 from '../offset10.json';
 import locationsData from '../locations.json';
 import { Location } from './models/locations.model';
 
@@ -45,19 +46,36 @@ export class LaunchesTableComponent implements OnInit {
 
   ngOnInit() {
     //TODO Activate endpoint at the end
-    // this._launchesTableService.getLaunchList().subscribe((v) => {
-    //   this.launches = v.results;
-    //   console.log(v);
+    this.fetchLaunches();
+    this.fetchLocations();
+  }
+
+  fetchLaunches(offset?: number) {
+    // this._launchesTableService.getLaunchList(offset).subscribe((launches) => {
+    //   this.launches = launches.results;
+    //   this.launchesData = launches.results;
+    //   this._preparePagination(launches.count);
     // });
-    this.launchesData = data.results;
+    this.launchesData = offset ? data.results : offset10.results;
     this.launches = this.launchesData;
-    this.locations = locationsData.results;
-    console.log(data.count);
-    const launchesPagesCount = Math.ceil(data.count / 10);
+    this._preparePagination( offset ? data.count : offset10.count);
+  }
+
+  private _preparePagination(launchesCount: number) {
+    const launchesPagesCount = Math.ceil(launchesCount / 10);
+    this.tablePages = [];
+
     for (let idx = 1; idx <= launchesPagesCount; idx++) {
       this.tablePages.push(idx);
     }
-    console.log('this.tablePages', this.tablePages);
+  }
+
+  fetchLocations() {
+    this._launchesTableService
+      .getLaunchLocations()
+      .subscribe((locations) => {});
+    this.locations = locationsData.results;
+    console.log(data.count);
   }
 
   selectLocation(locations: Location[]) {
@@ -69,11 +87,25 @@ export class LaunchesTableComponent implements OnInit {
     );
   }
 
-  selectPage(page: number) {
+  selectPage(newPage: number) {
     const lastPage = this.tablePages[this.tablePages.length - 1];
-    console.log(lastPage);
-    this.selectedPage = page;
+    console.log('newPage', newPage);
+    this.selectedPage = newPage;
     this.prevButtonDisabled = this.selectedPage === 1;
     this.nextButtonDisabled = this.selectedPage === lastPage;
+
+    this.fetchLaunches((newPage - 1) * 10);
+  }
+
+  prevPage() {
+    if (!this.prevButtonDisabled) {
+      this.selectPage(this.selectedPage - 1);
+    }
+  }
+
+  nextPage() {
+    if (!this.nextButtonDisabled) {
+      this.selectPage(this.selectedPage + 1);
+    }
   }
 }

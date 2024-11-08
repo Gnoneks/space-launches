@@ -24,6 +24,7 @@ $primary-blue: rgb(47, 123, 221);
 
         &--disabled {
             color: rgb(201, 201, 201);
+            cursor: default;
         }
     }
 
