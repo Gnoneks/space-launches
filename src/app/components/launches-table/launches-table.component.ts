@@ -8,11 +8,13 @@ import {
   NgSelectComponent,
 } from '@ng-select/ng-select';
 import { Launch } from './models/launch.model';
-//
+import { Location } from './models/locations.model';
+
+// TODO REMOVE MOCK DATA
 import data from '../data.json';
 import offset10 from '../offset10.json';
 import locationsData from '../locations.json';
-import { Location } from './models/locations.model';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-launches-table',
@@ -23,6 +25,7 @@ import { Location } from './models/locations.model';
     NgOptionTemplateDirective,
     NgSelectComponent,
     MatIconModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './launches-table.component.html',
   styleUrl: './launches-table.component.scss',
@@ -32,9 +35,12 @@ export class LaunchesTableComponent implements OnInit {
   displayedColumns: string[] = ['name', 'launchDate', 'location', 'status'];
 
   launchesData: Launch[];
+  locationsData: Location[];
   launches: Launch[];
-  locations: Location[];
   tablePages: number[] = [];
+  selectForm = new FormGroup({
+    locations: new FormControl(null),
+  });
 
   selectedPage = 1;
   prevButtonDisabled = true;
@@ -45,17 +51,22 @@ export class LaunchesTableComponent implements OnInit {
   constructor(private readonly _launchesTableService: LaunchesTableService) {}
 
   ngOnInit() {
-    //TODO Activate endpoint at the end
     this.fetchLaunches();
     this.fetchLocations();
+
+    this.selectForm.valueChanges.subscribe((v) => console.log(v));
   }
 
   fetchLaunches(offset?: number) {
     // this._launchesTableService.getLaunchList(offset).subscribe((launches) => {
+      // this.clearLocationFilters();
     //   this.launches = launches.results;
     //   this.launchesData = launches.results;
     //   this._preparePagination(launches.count);
     // });
+
+    //TODO Swap
+    this.clearLocationFilters();
     this.launchesData = offset ? data.results : offset10.results;
     this.launches = this.launchesData;
     this._preparePagination(offset ? data.count : offset10.count);
@@ -65,16 +76,20 @@ export class LaunchesTableComponent implements OnInit {
     const lastPage = Math.ceil(launchesCount / 10);
     this.tablePages = [];
 
-    if (this.selectedPage === 1) {
-      this.tablePages = [1, 2, 3];
-    } else if (this.selectedPage === lastPage) {
-      this.tablePages = [lastPage - 2, lastPage - 1, lastPage];
-    } else {
-      this.tablePages = [
-        this.selectedPage - 1,
-        this.selectedPage,
-        this.selectedPage + 1,
-      ];
+    switch (this.selectedPage) {
+      case 1:
+        this.tablePages = [1, 2, 3];
+        break;
+      case lastPage:
+        this.tablePages = [lastPage - 2, lastPage - 1, lastPage];
+        break;
+      default:
+        this.tablePages = [
+          this.selectedPage - 1,
+          this.selectedPage,
+          this.selectedPage + 1,
+        ];
+        break;
     }
 
     this.prevButtonDisabled = this.selectedPage === 1;
@@ -84,8 +99,10 @@ export class LaunchesTableComponent implements OnInit {
   fetchLocations() {
     this._launchesTableService
       .getLaunchLocations()
-      .subscribe((locations) => {});
-    this.locations = locationsData.results;
+      .subscribe((locations) => (this.locationsData = locations.results));
+
+    //TODO remove below
+    this.locationsData = locationsData.results;
     console.log(data.count);
   }
 
@@ -102,8 +119,6 @@ export class LaunchesTableComponent implements OnInit {
     // const isOnLastPage =
     //   this.tablePages[2] === this.tablePages[this.tablePages.length - 1];
     this.selectedPage = newPage;
-
-
     this.fetchLaunches((newPage - 1) * 10);
   }
 
@@ -116,6 +131,14 @@ export class LaunchesTableComponent implements OnInit {
   nextPage() {
     if (!this.nextButtonDisabled) {
       this.selectPage(this.selectedPage + 1);
+    }
+  }
+
+  clearLocationFilters() {
+    const locations = this.selectForm.controls.locations;
+
+    if (locations.value) {
+      locations.setValue(null);
     }
   }
 }

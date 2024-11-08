@@ -1,5 +1,7 @@
-<ng-select [items]="locations" bindLabel="name" bindalue="id" placeholder="Filter by launch locations" [multiple]="true" (change)="selectLocation($event)">
-</ng-select>
+<form [formGroup]="selectForm">
+  <ng-select [items]="locationsData" bindLabel="name" bindalue="id" placeholder="Filter by launch locations" [multiple]="true" (change)="selectLocation($event)" formControlName="locations">
+  </ng-select>
+</form>
 <table mat-table [dataSource]="launches" class="table">
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef></th>
