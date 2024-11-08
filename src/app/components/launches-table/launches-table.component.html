@@ -1,5 +1,7 @@
-<ng-select [items]="locations" bindLabel="name" bindalue="id" placeholder="Filter by launch locations" [multiple]="true" (change)="selectLocation($event)">
-</ng-select>
+<form [formGroup]="selectForm">
+  <ng-select [items]="locationsData" bindLabel="name" bindalue="id" placeholder="Filter by launch locations" [multiple]="true" (change)="selectLocation($event)" formControlName="locations">
+  </ng-select>
+</form>
 <table mat-table [dataSource]="launches" class="table">
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef></th>
@@ -39,3 +41,14 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+<div class="table__pagination">
+  <button class="table__pagination-button" [class.table__pagination-button--disabled]="prevButtonDisabled" (click)="prevPage()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  @for (page of tablePages; track $index) {
+  <button class="table__pagination-page" [class.table__pagination-page--selected]="selectedPage === page" (click)="selectPage(page)">{{page}}</button>
+  }
+  <button class="table__pagination-button"  [class.table__pagination-button--disabled]="nextButtonDisabled" (click)="nextPage()">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</div>
