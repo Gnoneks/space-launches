@@ -31,6 +31,7 @@ export class LaunchesTableComponent implements OnInit {
   launchesData: Launch[];
   launches: Launch[];
   locations: Location[];
+  tablePages: number[] = [];
 
   selectedLocationName: string;
 
@@ -45,6 +46,12 @@ export class LaunchesTableComponent implements OnInit {
     this.launchesData = data.results;
     this.launches = this.launchesData;
     this.locations = locationsData.results;
+    console.log(data.count)
+    const launchesPagesCount = Math.ceil(data.count / 10);
+    for (let idx = 1; idx <= launchesPagesCount; idx++) {
+      this.tablePages.push(idx);
+    }
+    console.log('this.tablePages', this.tablePages);
   }
 
   selectLocation(locations: Location[]) {
