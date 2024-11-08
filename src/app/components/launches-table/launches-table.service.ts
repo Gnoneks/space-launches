@@ -8,6 +8,6 @@ export class LaunchesTableService {
   constructor(private http: HttpClient) {}
 
   getLaunchList(): Observable<LaunchList> {
-    return this.http.get<LaunchList>('https://ll.thespacedevs.com/2.0.0/location/');
+    return this.http.get<LaunchList>('https://ll.thespacedevs.com/2.2.0/launch/upcoming/');
   }
 }
