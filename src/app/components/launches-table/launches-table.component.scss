@@ -1,11 +1,77 @@
 $primary-blue: rgb(47, 123, 221);
+$secondary-blue: rgb(113, 201, 241);
+$light-blue: rgb(207, 222, 230);
+$text-light: rgb(160, 160, 160);
+$text: rgb(114, 114, 114);
+$text-dark: rgb(59, 59, 59);
 
-.table {
+.launches {
+    display: flex;
+    flex-direction: column;
     background-color: #fff;
+    border-left: 96px solid $primary-blue;
+    padding: 32px 0 0 32px;
 
+    &__filter {
+        width: 40%;
+        color: $primary-blue;
+        background-color: $light-blue;
+        border-radius: 6px;
+    }
+
+    &__table {
+        background-color: #fff;
+    }
+
+    &__cell {
+        border-color: $light-blue;
+    }
+
+    &__title-cell {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 18px;
+    }
+
+    &__rocket-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        background-color: $primary-blue;
+        border-radius: 6px;
+    }
+
+    &__name {
+        font-size: 18px;
+        color: $text-dark;
+        font-weight: bold;
+    }
+
+    &__pad-name {
+        font-size: 14px;
+        color: $text;
+    }
+
+    &__property {
+        font-size: 16px;
+        color: $text;
+    }
+
+    &__property-label {
+        font-size: 12px;
+        color: $text-light;
+    }
 
     &__status {
-        background-color: rgb(113, 201, 241);
+        width: max-content;
+        margin-left: auto;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-weight: bold;
+        text-align: end;
+        background-color: $light-blue;
         color: $primary-blue;
     }
 

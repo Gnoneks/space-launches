@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { LaunchesTableService } from './launches-table.service';
 import {
   NgLabelTemplateDirective,
+  NgOptionComponent,
   NgOptionTemplateDirective,
   NgSelectComponent,
 } from '@ng-select/ng-select';
@@ -15,15 +16,18 @@ import data from '../data.json';
 import offset10 from '../offset10.json';
 import locationsData from '../locations.json';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-launches-table',
   standalone: true,
   imports: [
+    DatePipe,
     MatTableModule,
     NgLabelTemplateDirective,
     NgOptionTemplateDirective,
     NgSelectComponent,
+    NgOptionComponent,
     MatIconModule,
     ReactiveFormsModule,
   ],
@@ -54,12 +58,12 @@ export class LaunchesTableComponent implements OnInit {
     this.fetchLaunches();
     this.fetchLocations();
 
-    this.selectForm.valueChanges.subscribe((v) => console.log(v));
+    // this.selectForm.valueChanges.subscribe((v) => console.log(v));
   }
 
   fetchLaunches(offset?: number) {
     // this._launchesTableService.getLaunchList(offset).subscribe((launches) => {
-      // this.clearLocationFilters();
+    // this.clearLocationFilters();
     //   this.launches = launches.results;
     //   this.launchesData = launches.results;
     //   this._preparePagination(launches.count);
@@ -110,9 +114,13 @@ export class LaunchesTableComponent implements OnInit {
     //TODO Switch logic for fetched data
     const locationsNames = locations.map((location) => location.name);
 
-    this.launches = this.launchesData.filter((launch) =>
-      locationsNames.includes(launch.pad.location.name)
-    );
+    if (locations.length) {
+      this.launches = this.launchesData.filter((launch) =>
+        locationsNames.includes(launch.pad.location.name)
+      );
+    } else {
+      this.launches = this.launchesData;
+    }
   }
 
   selectPage(newPage: number) {
