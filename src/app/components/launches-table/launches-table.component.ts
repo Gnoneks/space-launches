@@ -58,16 +58,27 @@ export class LaunchesTableComponent implements OnInit {
     // });
     this.launchesData = offset ? data.results : offset10.results;
     this.launches = this.launchesData;
-    this._preparePagination( offset ? data.count : offset10.count);
+    this._preparePagination(offset ? data.count : offset10.count);
   }
 
   private _preparePagination(launchesCount: number) {
-    const launchesPagesCount = Math.ceil(launchesCount / 10);
+    const lastPage = Math.ceil(launchesCount / 10);
     this.tablePages = [];
 
-    for (let idx = 1; idx <= launchesPagesCount; idx++) {
-      this.tablePages.push(idx);
+    if (this.selectedPage === 1) {
+      this.tablePages = [1, 2, 3];
+    } else if (this.selectedPage === lastPage) {
+      this.tablePages = [lastPage - 2, lastPage - 1, lastPage];
+    } else {
+      this.tablePages = [
+        this.selectedPage - 1,
+        this.selectedPage,
+        this.selectedPage + 1,
+      ];
     }
+
+    this.prevButtonDisabled = this.selectedPage === 1;
+    this.nextButtonDisabled = this.selectedPage === lastPage;
   }
 
   fetchLocations() {
@@ -88,11 +99,10 @@ export class LaunchesTableComponent implements OnInit {
   }
 
   selectPage(newPage: number) {
-    const lastPage = this.tablePages[this.tablePages.length - 1];
-    console.log('newPage', newPage);
+    // const isOnLastPage =
+    //   this.tablePages[2] === this.tablePages[this.tablePages.length - 1];
     this.selectedPage = newPage;
-    this.prevButtonDisabled = this.selectedPage === 1;
-    this.nextButtonDisabled = this.selectedPage === lastPage;
+
 
     this.fetchLaunches((newPage - 1) * 10);
   }
