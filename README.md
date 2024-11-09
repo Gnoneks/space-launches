@@ -9,3 +9,5 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 ## Notes
 
 I've created model files with only properties names used to access data necessary to complete assigned task.
+
+I added "No results found" message if there are no filtered values.
