@@ -6,6 +6,7 @@
     </ng-option>
     }
   </ng-select>
+  @if (launches.length) {
   <table mat-table [dataSource]="launches" class="launches__table">
     <ng-container matColumnDef="name">
       <td class="launches__cell" mat-cell *matCellDef="let element">
@@ -40,8 +41,11 @@
       </td>
     </ng-container>
 
-    <tr class="launches__row" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  } @else {
+  <div class="launches__no-results">No results found :(</div>
+  }
   <div class="launches__pagination">
     <button class="launches__pagination-button" [class.launches__pagination-button--disabled]="prevButtonDisabled" (click)="prevPage()">
       <mat-icon>chevron_left</mat-icon>
