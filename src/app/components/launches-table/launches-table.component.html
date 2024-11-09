@@ -1,22 +1,17 @@
 <div class="launches">
-  <form class="launches__filter" [formGroup]="selectForm">
-    <!-- <ng-select [items]="locationsData" bindLabel="name" bindalue="id" >
-    </ng-select> -->
-
-    <ng-select placeholder="Filter by launch locations" [multiple]="true" (change)="selectLocation($event)" formControlName="locations">
-      @for (location of locationsData; track location.id) {
-      <ng-option [value]="location"><input type="checkbox" />
-        <p> {{location.name}}</p>
-      </ng-option>
-      }
-    </ng-select>
-  </form>
+  <ng-select class="launches__filter" placeholder="Filter by launch locations" [multiple]="true" [formControl]="locationsControl">
+    @for (location of locationsData; track location.id) {
+    <ng-option [value]="location">
+      <p> {{location.name}}</p>
+    </ng-option>
+    }
+  </ng-select>
   <table mat-table [dataSource]="launches" class="launches__table">
     <ng-container matColumnDef="name">
       <td class="launches__cell" mat-cell *matCellDef="let element">
         <div class="launches__title-cell">
           <div class="launches__rocket-icon">
-            <img width="32px" height="32px" src="assets/rocket.svg" alt="rocket"/>
+            <img width="32px" height="32px" src="assets/rocket.svg" alt="rocket" />
           </div>
           <div>
             <p class="launches__name">
