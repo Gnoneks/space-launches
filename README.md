@@ -3,25 +3,16 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.0.
 
 ## Development server
+Remember to run `npm install` before first startup.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `ng serve` or `ng s` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Notes
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+!There is error 429 occuring during testing, looks like database has request limits on it. If you encounter this issue bear in mind that it was not set up by me.! 
 
-## Build
+I've created model files with only properties names used to access data necessary to complete assigned task.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+I added "No results found" message if there are no filtered values.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The styling is not done as required because applying custom styles and custom icons to filter input would just take too much time. Task was supposed to take 2-3 hours and I'm going to keep it that way. Nonetheless functional part of the application is done. 

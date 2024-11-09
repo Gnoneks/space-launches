@@ -1,0 +1,60 @@
+<div class="launches">
+  <ng-select class="launches__filter" placeholder="Filter by launch locations" [multiple]="true" [formControl]="locationsControl">
+    @for (location of locationsData; track location.id) {
+    <ng-option [value]="location">
+      <p> {{location.name}}</p>
+    </ng-option>
+    }
+  </ng-select>
+  @if (launches?.length) {
+  <table mat-table [dataSource]="launches" class="launches__table">
+    <ng-container matColumnDef="name">
+      <td class="launches__cell" mat-cell *matCellDef="let element">
+        <div class="launches__title-cell">
+          <div class="launches__rocket-icon">
+            <img width="32px" height="32px" src="assets/rocket.svg" alt="rocket" />
+          </div>
+          <div>
+            <p class="launches__name">
+              {{element.name}}
+            </p>
+            <p class="launches__pad-name">{{element.pad.name}}</p>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="launchDate">
+      <td class="launches__cell" mat-cell *matCellDef="let element">
+        <p class="launches__property">{{element.window_start | date}}</p>
+        <p class="launches__property-label">Launch Date</p>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="location">
+      <td class="launches__cell" mat-cell *matCellDef="let element">
+        <p class="launches__property">{{element.pad.location.name}}</p>
+        <p class="launches__property-label">Location</p>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <td class="launches__cell" mat-cell *matCellDef="let element">
+        <div class="launches__status"> {{element.status.name}}</div>
+      </td>
+    </ng-container>
+
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  } @else {
+  <div class="launches__no-results">No results found :(</div>
+  }
+  <div class="launches__pagination">
+    <button class="launches__pagination-button" [class.launches__pagination-button--disabled]="prevButtonDisabled" (click)="prevPage()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    @for (page of tablePages; track $index) {
+    <button class="launches__pagination-page" [class.launches__pagination-page--selected]="selectedPage === page" (click)="selectPage(page)">{{page}}</button>
+    }
+    <button class="launches__pagination-button" [class.launches__pagination-button--disabled]="nextButtonDisabled" (click)="nextPage()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</div>
