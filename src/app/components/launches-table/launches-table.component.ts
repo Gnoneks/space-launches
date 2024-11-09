@@ -10,17 +10,9 @@ import {
 } from '@ng-select/ng-select';
 import { Launch } from './models/launch.model';
 import { Location } from './models/locations.model';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
-// TODO REMOVE MOCK DATA
-import data from '../data.json';
-import offset10 from '../offset10.json';
-import locationsData from '../locations.json';
 
 @Component({
   selector: 'app-launches-table',
@@ -62,23 +54,15 @@ export class LaunchesTableComponent implements OnInit, OnDestroy {
     this._fetchLaunches();
     this._fetchLocations();
     this._listenToFilterChanges();
-
-    // this.selectForm.valueChanges.subscribe((v) => console.log(v));
   }
 
   private _fetchLaunches(offset?: number) {
-    // this._launchesTableService.getLaunchList(offset).subscribe((launches) => {
-    // this.clearLocationFilters();
-    //   this.launches = launches.results;
-    //   this.launchesData = launches.results;
-    //   this._preparePagination(launches.count);
-    // });
-
-    //TODO Swap
-    this.clearLocationFilters();
-    this.launchesData = offset ? data.results : offset10.results;
-    this.launches = this.launchesData;
-    this._preparePagination(offset ? data.count : offset10.count);
+    this._launchesTableService.getLaunchList(offset).subscribe((launches) => {
+      this.clearLocationFilters();
+      this.launches = launches.results;
+      this.launchesData = launches.results;
+      this._preparePagination(launches.count);
+    });
   }
 
   private _preparePagination(launchesCount: number) {
@@ -106,13 +90,9 @@ export class LaunchesTableComponent implements OnInit, OnDestroy {
   }
 
   private _fetchLocations() {
-    // this._launchesTableService
-    //   .getLaunchLocations()
-    //   .subscribe((locations) => (this.locationsData = locations.results));
-
-    //TODO remove below
-    this.locationsData = locationsData.results;
-    console.log(data.count);
+    this._launchesTableService
+      .getLaunchLocations()
+      .subscribe((locations) => (this.locationsData = locations.results));
   }
 
   private _listenToFilterChanges() {
@@ -132,8 +112,6 @@ export class LaunchesTableComponent implements OnInit, OnDestroy {
   }
 
   selectPage(newPage: number) {
-    // const isOnLastPage =
-    //   this.tablePages[2] === this.tablePages[this.tablePages.length - 1];
     this.selectedPage = newPage;
     this._fetchLaunches((newPage - 1) * 10);
   }
