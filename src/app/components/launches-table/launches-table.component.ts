@@ -1,29 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { LaunchesTableService } from './launches-table.service';
 import {
   NgLabelTemplateDirective,
+  NgOptionComponent,
   NgOptionTemplateDirective,
   NgSelectComponent,
 } from '@ng-select/ng-select';
 import { Launch } from './models/launch.model';
 import { Location } from './models/locations.model';
-
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 // TODO REMOVE MOCK DATA
 import data from '../data.json';
 import offset10 from '../offset10.json';
 import locationsData from '../locations.json';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-launches-table',
   standalone: true,
   imports: [
+    DatePipe,
     MatTableModule,
     NgLabelTemplateDirective,
     NgOptionTemplateDirective,
     NgSelectComponent,
+    NgOptionComponent,
     MatIconModule,
     ReactiveFormsModule,
   ],
@@ -31,16 +39,14 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './launches-table.component.scss',
   providers: [LaunchesTableService],
 })
-export class LaunchesTableComponent implements OnInit {
+export class LaunchesTableComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['name', 'launchDate', 'location', 'status'];
 
   launchesData: Launch[];
   locationsData: Location[];
   launches: Launch[];
   tablePages: number[] = [];
-  selectForm = new FormGroup({
-    locations: new FormControl(null),
-  });
+  locationsControl = new FormControl<Location[]>([]);
 
   selectedPage = 1;
   prevButtonDisabled = true;
@@ -48,18 +54,21 @@ export class LaunchesTableComponent implements OnInit {
 
   selectedLocationName: string;
 
+  private readonly _destroy$ = new Subject<void>();
+
   constructor(private readonly _launchesTableService: LaunchesTableService) {}
 
   ngOnInit() {
-    this.fetchLaunches();
-    this.fetchLocations();
+    this._fetchLaunches();
+    this._fetchLocations();
+    this._listenToFilterChanges();
 
-    this.selectForm.valueChanges.subscribe((v) => console.log(v));
+    // this.selectForm.valueChanges.subscribe((v) => console.log(v));
   }
 
-  fetchLaunches(offset?: number) {
+  private _fetchLaunches(offset?: number) {
     // this._launchesTableService.getLaunchList(offset).subscribe((launches) => {
-      // this.clearLocationFilters();
+    // this.clearLocationFilters();
     //   this.launches = launches.results;
     //   this.launchesData = launches.results;
     //   this._preparePagination(launches.count);
@@ -96,30 +105,37 @@ export class LaunchesTableComponent implements OnInit {
     this.nextButtonDisabled = this.selectedPage === lastPage;
   }
 
-  fetchLocations() {
-    this._launchesTableService
-      .getLaunchLocations()
-      .subscribe((locations) => (this.locationsData = locations.results));
+  private _fetchLocations() {
+    // this._launchesTableService
+    //   .getLaunchLocations()
+    //   .subscribe((locations) => (this.locationsData = locations.results));
 
     //TODO remove below
     this.locationsData = locationsData.results;
     console.log(data.count);
   }
 
-  selectLocation(locations: Location[]) {
-    //TODO Switch logic for fetched data
-    const locationsNames = locations.map((location) => location.name);
+  private _listenToFilterChanges() {
+    this.locationsControl.valueChanges
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((locations) => {
+        if (locations?.length) {
+          const locationsNames = locations.map((location) => location.name);
 
-    this.launches = this.launchesData.filter((launch) =>
-      locationsNames.includes(launch.pad.location.name)
-    );
+          this.launches = this.launchesData.filter((launch) =>
+            locationsNames.includes(launch.pad.location.name)
+          );
+        } else {
+          this.launches = this.launchesData;
+        }
+      });
   }
 
   selectPage(newPage: number) {
     // const isOnLastPage =
     //   this.tablePages[2] === this.tablePages[this.tablePages.length - 1];
     this.selectedPage = newPage;
-    this.fetchLaunches((newPage - 1) * 10);
+    this._fetchLaunches((newPage - 1) * 10);
   }
 
   prevPage() {
@@ -135,10 +151,13 @@ export class LaunchesTableComponent implements OnInit {
   }
 
   clearLocationFilters() {
-    const locations = this.selectForm.controls.locations;
-
-    if (locations.value) {
-      locations.setValue(null);
+    if (this.locationsControl.value) {
+      this.locationsControl.setValue(null);
     }
+  }
+
+  ngOnDestroy() {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 }
