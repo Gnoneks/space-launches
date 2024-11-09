@@ -6,7 +6,7 @@
     </ng-option>
     }
   </ng-select>
-  @if (launches.length) {
+  @if (launches?.length) {
   <table mat-table [dataSource]="launches" class="launches__table">
     <ng-container matColumnDef="name">
       <td class="launches__cell" mat-cell *matCellDef="let element">
